@@ -1,0 +1,80 @@
+# Barrel Monitor API - Load Testing and DDOS protection
+
+api:
+  base_url: "https://to-barrel-monitor.azurewebsites.net"
+  timeout: 30
+
+# Load Testing scenarios
+load_testing:
+  scenarios:
+    # Normal load (quick demo)
+    - name: "normal_load"
+      users: 3
+      spawn_rate: 1              # users per second
+      run_time: "30s"
+      
+    # Medium load (quick demo)
+    - name: "medium_load"
+      users: 5
+      spawn_rate: 2
+      run_time: "45s"
+      
+    # High load (quick demo)
+    - name: "high_load"  
+      users: 10
+      spawn_rate: 3
+      run_time: "60s"
+      
+    # Spike test (quick demo)
+    - name: "spike_test"
+      users: 15
+      spawn_rate: 5
+      run_time: "30s"
+
+# DDOS protection testing
+ddos_protection:
+  enabled: true
+  
+  # Rate limiting tests (quick demo)
+  rate_limit_tests:
+    - name: "burst_test"
+      requests_per_second: 20
+      duration: 5                # seconds
+      
+    - name: "sustained_high_rate"  
+      requests_per_second: 10
+      duration: 15
+      
+    - name: "extreme_burst"
+      requests_per_second: 50
+      duration: 3
+
+  # Connection flooding
+  connection_flood:
+    max_connections: 1000
+    connection_rate: 100         # connections per second
+    keep_connections_open: true
+    
+  # Request pattern tests
+  attack_patterns:
+    - name: "rapid_fire"
+      pattern: "burst"
+      burst_size: 100
+      burst_interval: 1          # seconds between bursts
+      
+    - name: "slow_drip"
+      pattern: "constant"  
+      requests_per_minute: 1000
+      
+# Monitoring during load tests      
+load_monitoring:
+  track_server_errors: true
+  track_timeouts: true  
+  track_connection_refused: true
+  alert_on_downtime: true
+  
+# Safety limits
+safety_limits:
+  max_test_duration: 900         # 15 minutes maximum
+  emergency_stop_error_rate: 50  # % - stops test on high error rate
+  max_concurrent_connections: 500

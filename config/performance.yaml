@@ -1,0 +1,43 @@
+# Barrel Monitor API - Performance Testing Configuration
+
+api:
+  base_url: "https://to-barrel-monitor.azurewebsites.net"
+  timeout: 60
+  retry_attempts: 1
+  retry_delay: 0.1
+
+# Performance testing
+performance:
+  enabled: true
+  batch_sizes: [1, 5, 10]                 # How many barrels to create at once (quick demo)
+  concurrent_users: [1, 3, 5]             # Number of concurrent requests (quick demo)
+  test_duration: 30                        # Total testing duration (seconds)
+  ramp_up_time: 10                         # Time to reach maximum load
+  cooldown_time: 5                         # Cooldown time after test
+
+# Concurrency testing
+concurrency:
+  max_concurrent_requests: 10
+  request_interval: 0.2                    # Seconds between requests
+  connection_pool_size: 20
+  keep_alive: true
+
+# Throughput testing  
+throughput:
+  target_rps: [1, 5, 10]                  # Requests per second targets (quick demo)
+  sustained_load_duration: 20             # How long to sustain load
+  peak_load_duration: 10                  # Peak load duration
+  
+# Memory and resource monitoring
+monitoring:
+  track_memory_usage: true
+  track_cpu_usage: true
+  track_response_times: true
+  response_time_percentiles: [50, 90, 95, 99]
+  
+# Thresholds for alerting
+thresholds:
+  max_response_time: 5000                  # ms
+  max_error_rate: 5                        # %
+  min_throughput: 1                        # RPS
+  max_memory_usage: 512                    # MB

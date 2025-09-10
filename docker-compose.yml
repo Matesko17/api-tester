@@ -1,0 +1,12 @@
+services:
+  api-tester:
+    build: .
+    container_name: api-tester
+    volumes:
+      - ./tests:/app/tests
+      - ./reports:/app/reports
+      - ./.env:/app/.env:ro
+    environment:
+      - API_BASE_URL=${API_BASE_URL:-https://to-barrel-monitor.azurewebsites.net}
+    working_dir: /app
+    command: pytest -v --html=reports/report.html --json-report --json-report-file=reports/report.json
